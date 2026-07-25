@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var wantsDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (wantsDark) document.documentElement.classList.add('dark');
+      } catch (e) { /* localStorage unavailable — default to light */ }
+    })();
+  </script>
+
+  <title>Eng. Inas Bin Yousuf | IT Systems &amp; Infrastructure Engineer</title>
+  <meta name="description" content="Portfolio of Eng. Inas Bin Yousuf, an IT Systems & Infrastructure Engineer based in Chattogram, Bangladesh, specializing in network architecture, Windows Server, MikroTik and Cisco infrastructure.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eng. Inas Bin Yousuf | IT Systems & Infrastructure Engineer">
+  <meta property="og:description" content="Portfolio of Eng. Inas Bin Yousuf, an IT Systems & Infrastructure Engineer based in Chattogram, Bangladesh, specializing in network architecture, Windows Server, MikroTik and Cisco infrastructure.">
+  <meta property="og:image" content="https://i.postimg.cc/q7V9zLjd/MD-Inas.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Eng. Inas Bin Yousuf | IT Systems & Infrastructure Engineer">
+  <meta name="twitter:description" content="Portfolio of Eng. Inas Bin Yousuf, an IT Systems & Infrastructure Engineer based in Chattogram, Bangladesh, specializing in network architecture, Windows Server, MikroTik and Cisco infrastructure.">
+  <meta name="twitter:image" content="https://i.postimg.cc/q7V9zLjd/MD-Inas.jpg">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Eng. Inas Bin Yousuf",
+    "jobTitle": "IT Systems & Infrastructure Engineer",
+    "image": "https://i.postimg.cc/q7V9zLjd/MD-Inas.jpg",
+    "email": "mailto:inasbinyousuf@gmail.com",
+    "telephone": "+8801870932446",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Chattagong",
+      "addressCountry": "Bangladesh"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/inas-bin-yousuf",
+      "https://www.facebook.com/Inas.Bin.Yousuf",
+      "https://www.instagram.com/inas.bin.yousuf"
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="page-top"></div>
+  <div id="scroll-progress"></div>
+
+  <div id="navbar-placeholder"></div>
+
+  <main id="page-content" class="fade-in-page pt-20">
+    <div id="hero-placeholder"></div>
+    <div id="about-placeholder"></div>
+    <div id="experience-placeholder"></div>
+    <div id="projects-placeholder"></div>
+    <div id="services-placeholder"></div>
+    <div id="education-placeholder"></div>
+    <div id="skills-placeholder"></div>
+    <div id="testimonials-placeholder"></div>
+    <div id="certifications-placeholder"></div>
+    <div id="objective-placeholder"></div>
+    <div id="contact-placeholder"></div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <div id="cv-modal-placeholder"></div>
+
+  <button id="back-to-top" type="button" aria-label="Back to top" class="back-to-top">
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6" /></svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
