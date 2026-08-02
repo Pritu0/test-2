@@ -1,63 +1,85 @@
 <section id="hero" class="relative overflow-hidden">
   <div class="section-wrap-wide grid lg:grid-cols-2 gap-16 items-center py-20 lg:py-28">
     <div>
-      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-black leading-[1.05] tracking-tight">
-        Eng. Inas Bin <span class="gradient-text">Yousuf</span>
+      <p class="eyebrow" data-i18n="hero.eyebrow">/home</p>
+      <h1 class="mt-4 text-5xl sm:text-6xl lg:text-[4.75rem] font-display font-bold leading-[1.04] tracking-tight text-ink-900 dark:text-white">
+        <span data-i18n="hero.title1">Eng. Inas Bin</span> <span class="gradient-text" data-i18n="hero.titleAccent">Yousuf</span>
       </h1>
-      <h2 class="mt-5 text-2xl sm:text-3xl font-display font-bold text-zinc-800 dark:text-zinc-100">
+      <h2 class="mt-5 text-xl sm:text-2xl font-display font-medium text-ink-500 dark:text-ink-300" data-i18n="hero.subtitle">
         IT Systems &amp; Infrastructure Engineer
       </h2>
 
-      <div class="mt-6 flex flex-wrap gap-3">
-        <span class="pill bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">Jr. Executive</span>
-        <span class="pill bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">Network Infrastructure</span>
-        <span class="pill bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">Solution Architect</span>
+      <div class="mt-6 flex flex-wrap gap-2.5">
+        <span class="pill bg-signal-50 text-signal-700 dark:bg-signal-500/10 dark:text-signal-300" data-i18n="hero.tag1">JR. EXECUTIVE</span>
+        <span class="pill bg-signal-50 text-signal-700 dark:bg-signal-500/10 dark:text-signal-300" data-i18n="hero.tag2">NETWORK INFRASTRUCTURE</span>
+        <span class="pill bg-signal-50 text-signal-700 dark:bg-signal-500/10 dark:text-signal-300" data-i18n="hero.tag3">SOLUTION ARCHITECT</span>
       </div>
 
-      <p class="mt-8 text-lg text-zinc-600 dark:text-zinc-400 max-w-xl leading-relaxed">
+      <p class="mt-8 text-[15.5px] text-ink-500 dark:text-ink-400 max-w-xl leading-relaxed" data-i18n="hero.paragraph">
         A dedicated Computer Science Engineering graduate with a deep passion for building and optimizing IT systems. I specialize in hardware infrastructure and network configuration, bringing hands-on expertise to deliver secure, scalable, and high-performance technology solutions for modern business needs.
       </p>
 
       <div class="mt-10 flex flex-wrap gap-4">
         <button type="button" data-open-cv class="btn-primary inline-flex items-center gap-2">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg>
-          Generate CV
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg>
+          <span data-i18n="hero.ctaPrimary">Generate CV</span>
         </button>
-        <a href="#contact" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold border-2 border-zinc-200 text-zinc-700 hover:border-indigo-300 hover:text-indigo-600 transition-colors dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-indigo-500 dark:hover:text-indigo-400">
-          Get in Touch
+        <a href="#contact" class="inline-flex items-center gap-2 px-7 py-[0.9rem] rounded-[0.625rem] font-semibold text-[15px] border border-ink-200 text-ink-700 hover:border-signal-300 hover:text-signal-600 transition-colors dark:border-ink-700 dark:text-ink-200 dark:hover:border-signal-500 dark:hover:text-signal-400">
+          <span data-i18n="hero.ctaSecondary">Get in Touch</span>
         </a>
       </div>
     </div>
 
     <div class="relative hidden lg:flex items-center justify-center" style="min-height:420px;">
-      <div class="orbit-glow"></div>
-      <div class="relative" style="width:360px;height:360px;">
-        <div class="orbit-ring"></div>
+      <svg viewBox="0 0 440 400" class="w-full max-w-[440px]" aria-hidden="true">
+        <!-- mesh connections -->
+        <path class="topology-line" d="M220,200 L80,90" />
+        <path class="topology-line" d="M220,200 L250,58" />
+        <path class="topology-line" d="M220,200 L382,128" />
+        <path class="topology-line" d="M220,200 L372,300" />
+        <path class="topology-line" d="M220,200 L200,352" />
+        <path class="topology-line" d="M220,200 L58,258" />
+        <path class="topology-line" d="M80,90 L250,58" />
+        <path class="topology-line" d="M382,128 L372,300" />
+        <path class="topology-line" d="M200,352 L58,258" />
 
-        <div class="orbit-center text-indigo-600 dark:text-indigo-300">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" /></svg>
-        </div>
+        <!-- animated signal flow along two paths -->
+        <path class="topology-pulse topology-flow" d="M220,200 L382,128" />
+        <path class="topology-pulse topology-flow" d="M220,200 L200,352" />
 
-        <div class="orbit-node text-indigo-600 dark:text-indigo-300" style="top:-14px; left:50%; transform:translateX(-50%); animation-delay:0s;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></svg>
-        </div>
+        <!-- edge nodes -->
+        <g>
+          <circle class="topology-node-ring" cx="80" cy="90" r="9" />
+          <circle class="topology-node-core" cx="80" cy="90" r="3.5" />
+        </g>
+        <g>
+          <circle class="topology-node-ring" cx="250" cy="58" r="9" />
+          <circle class="topology-node-core" cx="250" cy="58" r="3.5" />
+        </g>
+        <g>
+          <circle class="topology-node-ring" cx="382" cy="128" r="9" />
+          <circle class="topology-node-core" cx="382" cy="128" r="3.5" />
+        </g>
+        <g>
+          <circle class="topology-node-ring" cx="372" cy="300" r="9" />
+          <circle class="topology-node-core" cx="372" cy="300" r="3.5" />
+        </g>
+        <g>
+          <circle class="topology-node-ring" cx="200" cy="352" r="9" />
+          <circle class="topology-node-core" cx="200" cy="352" r="3.5" />
+        </g>
+        <g>
+          <circle class="topology-node-ring" cx="58" cy="258" r="9" />
+          <circle class="topology-node-core" cx="58" cy="258" r="3.5" />
+        </g>
 
-        <div class="orbit-node text-indigo-600 dark:text-indigo-300" style="top:78px; left:-24px; animation-delay:1.2s;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1" /><rect x="2" y="16" width="6" height="6" rx="1" /><rect x="9" y="2" width="6" height="6" rx="1" /><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /><path d="M12 12V8" /></svg>
-        </div>
-
-        <div class="orbit-node text-indigo-600 dark:text-indigo-300" style="top:78px; right:-24px; animation-delay:2.4s;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v2" /><path d="M12 2v2" /><path d="M17 20v2" /><path d="M17 2v2" /><path d="M2 12h2" /><path d="M2 17h2" /><path d="M2 7h2" /><path d="M20 12h2" /><path d="M20 17h2" /><path d="M20 7h2" /><path d="M7 20v2" /><path d="M7 2v2" /><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="8" y="8" width="8" height="8" rx="1" /></svg>
-        </div>
-
-        <div class="orbit-node text-indigo-600 dark:text-indigo-300" style="bottom:-10px; left:20px; width:4.5rem; height:4.5rem; animation-delay:3.6s;">
-          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
-        </div>
-
-        <div class="orbit-node text-indigo-600 dark:text-indigo-300" style="bottom:20px; right:-16px; animation-delay:4.8s;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg>
-        </div>
-      </div>
+        <!-- core node -->
+        <circle class="topology-node-ring" cx="220" cy="200" r="30" stroke-width="1.5" />
+        <circle cx="220" cy="200" r="22" fill="#2f5fec" opacity="0.08" />
+        <g transform="translate(220,200)" class="text-signal-600 dark:text-signal-400">
+          <svg x="-11" y="-11" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" /></svg>
+        </g>
+      </svg>
     </div>
   </div>
 </section>

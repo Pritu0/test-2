@@ -20,7 +20,7 @@
 
   var SECTIONS = [
     'navbar', 'hero', 'about', 'experience', 'projects', 'services',
-    'education', 'skills', 'testimonials', 'certifications', 'objective',
+    'education', 'skills', 'testimonials', 'certifications', 'articles', 'objective',
     'contact', 'footer', 'cv-modal'
   ];
 
@@ -54,8 +54,11 @@
     initActiveSection();
     initTestimonials();
     initContactForm();
+    initCopyButtons();
+    initCertLinks();
     initCvModal();
     initFooterYear();
+    initLanguage();
     revealPage();
   });
 
@@ -203,12 +206,35 @@
     startTimer();
   }
 
-  // ---------------- Contact form (mailto) ----------------
+  // ---------------- Contact form ----------------
+  // Submits directly via Web3Forms (https://web3forms.com) when configured —
+  // free, no backend needed, just an access key tied to the destination
+  // inbox. Until a real key is set below, the form automatically falls
+  // back to opening a pre-filled mailto: link, so it always works.
+  var WEB3FORMS_ACCESS_KEY = 'REPLACE-WITH-YOUR-WEB3FORMS-ACCESS-KEY';
+
   function initContactForm() {
     var form = document.getElementById('contact-form');
     if (!form) return;
     var submitBtn = document.getElementById('cf-submit');
     var submitLabel = document.getElementById('cf-submit-label');
+    var statusEl = document.getElementById('cf-status');
+    var isConfigured = WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY.indexOf('REPLACE-WITH') !== 0;
+
+    function setStatus(text, tone) {
+      if (!statusEl) return;
+      statusEl.textContent = text || '';
+      statusEl.className = 'text-sm mt-3 ' + (tone === 'error' ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400');
+      statusEl.classList.toggle('hidden', !text);
+    }
+
+    function mailtoFallback(name, email, subject, message) {
+      var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
+      var mailtoUrl = 'mailto:inasbinyousuf@gmail.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+      window.location.href = mailtoUrl;
+    }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -218,33 +244,66 @@
       var subject = (document.getElementById('cf-subject') || {}).value || 'Project Inquiry';
       var message = (document.getElementById('cf-message') || {}).value || '';
 
-      var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
-      var mailtoUrl = 'mailto:inasbinyousuf@gmail.com'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(body);
-
       var originalLabel = submitLabel ? submitLabel.textContent : '';
-      if (submitLabel) submitLabel.textContent = 'Opening Your Email App...';
+      setStatus('', null);
+
+      if (!isConfigured) {
+        if (submitLabel) submitLabel.textContent = 'Opening Your Email App...';
+        if (submitBtn) submitBtn.disabled = true;
+        mailtoFallback(name, email, subject, message);
+        setTimeout(function () {
+          if (submitLabel) submitLabel.textContent = originalLabel;
+          if (submitBtn) submitBtn.disabled = false;
+        }, 2500);
+        return;
+      }
+
+      if (submitLabel) submitLabel.textContent = 'Sending...';
       if (submitBtn) submitBtn.disabled = true;
 
-      window.location.href = mailtoUrl;
-
-      setTimeout(function () {
-        if (submitLabel) submitLabel.textContent = originalLabel;
-        if (submitBtn) submitBtn.disabled = false;
-      }, 2500);
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: name, email: email, subject: subject, message: message,
+          from_name: 'Portfolio contact form — inasbinyousuf.com',
+        }),
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.success) {
+            setStatus('Message sent — thanks! I\u2019ll get back to you soon.', 'success');
+            form.reset();
+          } else {
+            throw new Error(data.message || 'Send failed');
+          }
+        })
+        .catch(function (err) {
+          console.error(err);
+          setStatus('Could not send automatically — opening your email app instead.', 'error');
+          mailtoFallback(name, email, subject, message);
+        })
+        .finally(function () {
+          if (submitLabel) submitLabel.textContent = originalLabel;
+          if (submitBtn) submitBtn.disabled = false;
+        });
     });
   }
 
-  // ---------------- CV modal + on-demand PDF export ----------------
+  // ---------------- CV modal + ATS-friendly PDF export ----------------
+  // Uses the browser's native print pipeline (window.print -> "Save as PDF")
+  // rather than rasterizing the DOM to an image. This is deliberate: an
+  // image-based PDF has no extractable text, so it would fail every ATS
+  // (applicant tracking system) scan. Native print output keeps real,
+  // selectable text in the PDF, which is what ATS parsers read.
   function initCvModal() {
     var modal = document.getElementById('cv-modal');
     if (!modal) return;
     var closeBtn = document.getElementById('cv-close');
     var downloadBtn = document.getElementById('cv-download');
-    var downloadLabel = document.getElementById('cv-download-label');
+    var printHint = document.getElementById('cv-print-hint');
     var openTriggers = document.querySelectorAll('[data-open-cv]');
-    var pdfLibPromise = null;
 
     function open() {
       modal.classList.add('open');
@@ -253,6 +312,7 @@
     function close() {
       modal.classList.remove('open');
       document.body.style.overflow = '';
+      if (printHint) printHint.classList.add('hidden');
     }
 
     openTriggers.forEach(function (trigger) { trigger.addEventListener('click', open); });
@@ -262,47 +322,150 @@
       if (e.key === 'Escape' && modal.classList.contains('open')) close();
     });
 
-    function loadPdfLib() {
-      if (window.html2pdf) return Promise.resolve();
-      if (pdfLibPromise) return pdfLibPromise;
-      pdfLibPromise = new Promise(function (resolve, reject) {
-        var script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        script.onload = function () { resolve(); };
-        script.onerror = function () { reject(new Error('Could not load the PDF export library.')); };
-        document.head.appendChild(script);
-      });
-      return pdfLibPromise;
-    }
-
     if (downloadBtn) {
       downloadBtn.addEventListener('click', function () {
-        var content = document.getElementById('cv-content');
-        if (!content) return;
-        var originalLabel = downloadLabel ? downloadLabel.textContent : '';
-        if (downloadLabel) downloadLabel.textContent = 'Preparing PDF...';
-        downloadBtn.disabled = true;
+        var originalTitle = document.title;
+        document.title = 'Inas-Bin-Yousuf-CV';
+        document.body.classList.add('printing-cv');
+        if (printHint) printHint.classList.remove('hidden');
 
-        loadPdfLib()
-          .then(function () {
-            return window.html2pdf().set({
-              margin: 0.4,
-              filename: 'Inas-Bin-Yousuf-CV.pdf',
-              image: { type: 'jpeg', quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true },
-              jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            }).from(content).save();
-          })
-          .catch(function (err) {
-            console.error(err);
-            window.alert('Could not generate the PDF right now. Please check your connection and try again.');
-          })
-          .finally(function () {
-            if (downloadLabel) downloadLabel.textContent = originalLabel;
-            downloadBtn.disabled = false;
-          });
+        var restored = false;
+        function restore() {
+          if (restored) return;
+          restored = true;
+          document.title = originalTitle;
+          document.body.classList.remove('printing-cv');
+          window.removeEventListener('afterprint', restore);
+        }
+        window.addEventListener('afterprint', restore);
+        setTimeout(restore, 3000); // fallback in browsers that skip afterprint
+
+        window.print();
       });
     }
+  }
+
+  // ---------------- Copy-to-clipboard buttons ----------------
+  function initCopyButtons() {
+    var buttons = document.querySelectorAll('[data-copy-value]');
+    buttons.forEach(function (btn) {
+      var value = btn.getAttribute('data-copy-value');
+      var iconDefault = btn.querySelector('[data-copy-icon-default]');
+      var iconSuccess = btn.querySelector('[data-copy-icon-success]');
+      var resetTimer = null;
+
+      btn.addEventListener('click', function () {
+        function showSuccess() {
+          if (iconDefault) iconDefault.classList.add('hidden');
+          if (iconSuccess) iconSuccess.classList.remove('hidden');
+          btn.setAttribute('aria-label', 'Copied');
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            if (iconDefault) iconDefault.classList.remove('hidden');
+            if (iconSuccess) iconSuccess.classList.add('hidden');
+            btn.setAttribute('aria-label', 'Copy email address');
+          }, 1800);
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(value).then(showSuccess).catch(function () {
+            fallbackCopy(value);
+            showSuccess();
+          });
+        } else {
+          fallbackCopy(value);
+          showSuccess();
+        }
+      });
+    });
+  }
+
+  function fallbackCopy(text) {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    document.body.removeChild(textarea);
+  }
+
+  // ---------------- Certification verification links ----------------
+  // Rows start with an empty data-cert-url. Any row where a real URL is
+  // later filled in automatically becomes a clickable "verify" link with
+  // an external-link icon; rows left empty stay plain text, unchanged.
+  function initCertLinks() {
+    var rows = document.querySelectorAll('[data-cert-url]');
+    rows.forEach(function (row) {
+      var url = row.getAttribute('data-cert-url');
+      if (!url) return;
+      row.classList.add('cred-row--linked');
+      var label = row.querySelector('span:last-child');
+      var link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = 'flex items-center gap-1.5 hover:text-signal-600 dark:hover:text-signal-400 transition-colors';
+      link.setAttribute('aria-label', 'Verify credential (opens in a new tab)');
+      row.insertBefore(link, label);
+      link.appendChild(label);
+      var icon = document.createElement('svg');
+      icon.setAttribute('viewBox', '0 0 24 24');
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('stroke', 'currentColor');
+      icon.setAttribute('stroke-width', '2');
+      icon.setAttribute('stroke-linecap', 'round');
+      icon.setAttribute('stroke-linejoin', 'round');
+      icon.setAttribute('class', 'w-3.5 h-3.5 shrink-0 text-ink-400');
+      icon.innerHTML = '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>';
+      link.appendChild(icon);
+    });
+  }
+
+  // ---------------- Language toggle (EN / BN) ----------------
+  function initLanguage() {
+    var toggle = document.getElementById('lang-toggle');
+    if (!toggle || !window.I18N) return;
+    var buttons = toggle.querySelectorAll('.lang-btn');
+
+    function getNested(obj, path) {
+      return path.split('.').reduce(function (acc, key) {
+        return acc && acc[key] !== undefined ? acc[key] : undefined;
+      }, obj);
+    }
+
+    function applyLanguage(lang) {
+      var dict = window.I18N[lang];
+      if (!dict) return;
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var value = getNested(dict, el.getAttribute('data-i18n'));
+        if (value !== undefined) el.textContent = value;
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+        var value = getNested(dict, el.getAttribute('data-i18n-placeholder'));
+        if (value !== undefined) el.setAttribute('placeholder', value);
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var value = getNested(dict, el.getAttribute('data-i18n-html'));
+        if (value !== undefined) el.innerHTML = value;
+      });
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.classList.toggle('lang-bn', lang === 'bn');
+      buttons.forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch (e) { /* ignore */ }
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () { applyLanguage(btn.getAttribute('data-lang')); });
+    });
+
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) { /* ignore */ }
+    applyLanguage(saved === 'bn' ? 'bn' : 'en');
   }
 
   // ---------------- Footer year ----------------
