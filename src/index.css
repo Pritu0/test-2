@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-primary-light: #4f46e5; /* Indigo 600 */
+  --color-primary-dark: #3b82f6; /* Blue 500 */
+
+  /* Define Zinc colors as hex to prevent html2canvas oklch errors */
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
+
+  /* Define Slate colors as hex */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
+  /* Define Indigo colors as hex */
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+  --color-indigo-950: #1e1b4b;
+
+  /* Define Blue colors as hex */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+  --color-blue-950: #172554;
+
+  /* Define White and Black as hex */
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans antialiased transition-colors duration-500 bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+    background-image: radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.03) 0px, transparent 50%),
+                      radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.03) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.03) 0px, transparent 50%),
+                      radial-gradient(at 0% 100%, rgba(37, 99, 235, 0.03) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Custom Scrollbar for Premium Feel */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-50 dark:bg-zinc-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-300 dark:bg-zinc-800 rounded-full border-2 border-solid border-zinc-50 dark:border-zinc-900;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-400 dark:bg-zinc-700;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+
+  .container-custom {
+    @apply container mx-auto px-6 max-w-7xl;
+  }
+
+  /* Premium Card System - Refined for Minimal Look */
+  .card-premium {
+    @apply rounded-2xl border transition-all duration-500
+           bg-white border-zinc-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] 
+           hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] hover:-translate-y-1
+           dark:bg-zinc-900 dark:border-zinc-800 dark:shadow-none dark:hover:border-zinc-700;
+  }
+
+  /* Typography Hierarchy */
+  .hero-name {
+    @apply font-display font-extrabold tracking-tighter leading-none;
+  }
+
+  .body-text {
+    @apply leading-relaxed opacity-90 text-zinc-600 dark:text-slate-400;
+  }
+
+  .small-text {
+    @apply text-sm tracking-wide text-zinc-500 dark:text-slate-400;
+  }
+
+  /* Button System */
+  .btn-primary {
+    @apply px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 hover:brightness-110 
+           bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-indigo-500/25 hover:shadow-indigo-500/40
+           dark:from-indigo-500 dark:to-blue-500 dark:shadow-indigo-500/20 dark:hover:shadow-indigo-500/30;
+  }
+
+  /* Navbar Glassmorphism */
+  .glass-nav {
+    @apply sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300 
+           bg-white/70 border-zinc-200/60
+           dark:bg-slate-900/70 dark:border-slate-800;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r 
+           from-indigo-600 to-blue-600
+           dark:from-indigo-400 dark:to-blue-400 opacity-100;
+  }
+
+  .cv-input {
+    @apply w-full p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all;
+  }
+
+  .cv-input-sm {
+    @apply w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 text-xs focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-zinc-200 dark:bg-zinc-700 rounded-full;
+  }
+
+  .cv-preview-shadow {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Professional CV Styles Optimized for A4 */
+  .cv-preview-container {
+    width: 210mm;
+    min-height: 296.8mm; /* Slightly less than 297 to prevent extra page */
+    margin: 0 auto;
+    background: white !important;
+    color: black !important;
+    padding: 12mm 15mm !important;
+    box-sizing: border-box !important;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cv-section {
+    @apply mb-5;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-section-title {
+    @apply text-[14px] font-bold border-b pb-1 mb-3 text-zinc-900 uppercase tracking-tight;
+    border-color: #000;
+    color: #000;
+  }
+
+  .cv-item-header {
+    @apply flex justify-between items-baseline mb-0.5;
+  }
+
+  .cv-item-title {
+    @apply text-[12px] font-bold text-zinc-900;
+  }
+
+  .cv-item-subtitle {
+    @apply text-[11px] font-bold text-zinc-800;
+  }
+
+  .cv-item-date {
+    @apply text-[10px] font-semibold text-zinc-500;
+  }
+
+  .cv-list {
+    @apply list-disc pl-4 mt-1 space-y-0.5;
+  }
+
+  .cv-list li {
+    @apply text-[11px] text-zinc-700 leading-relaxed;
+  }
+
+  .cv-grid {
+    @apply grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-8;
+  }
+
+  .cv-grid-single {
+    @apply flex flex-col gap-8;
+  }
+
+  .personal-detail-item {
+    @apply flex text-[11px] mb-1;
+  }
+
+  .personal-detail-label {
+    @apply font-bold w-[120px] text-zinc-800;
+  }
+
+  .personal-detail-value {
+    @apply text-zinc-600;
+  }
+
+  .cv-grid-two-column {
+    @apply grid grid-cols-[1fr_2fr] gap-8;
+  }
+
+  .cv-column-sidebar {
+    @apply flex flex-col gap-6 border-r border-zinc-100 pr-6;
+  }
+
+  .cv-column-main {
+    @apply flex flex-col gap-6;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+}
+
+@media print {
+  body {
+    background: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide UI elements during print */
+  .fixed, button, .sidebar-controls, .no-print {
+    display: none !important;
+  }
+
+  .cv-preview-container {
+    width: 210mm !important;
+    height: 297mm !important;
+    padding: 15mm 20mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
