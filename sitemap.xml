@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  IMPORTANT: replace https://REPLACE-WITH-YOUR-DOMAIN.example everywhere
-  below with your real published URL (e.g. https://your-username.github.io/your-repo
-  or your custom domain) once you know where this site will live, then
-  resubmit this file in Google Search Console.
+  Current URL: https://pritu0.github.io/test-2/
+  If this moves to a different GitHub Pages repo or a custom domain later,
+  update every <loc> below (and og:image / twitter:image / sitemap link in
+  index.html and robots.txt) to match, then resubmit this file in Google
+  Search Console.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/</loc>
+    <loc>https://pritu0.github.io/test-2/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#about</loc>
+    <loc>https://pritu0.github.io/test-2/#about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#experience</loc>
+    <loc>https://pritu0.github.io/test-2/#experience</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#projects</loc>
+    <loc>https://pritu0.github.io/test-2/#projects</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#services</loc>
+    <loc>https://pritu0.github.io/test-2/#services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#skills</loc>
+    <loc>https://pritu0.github.io/test-2/#skills</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#certifications</loc>
+    <loc>https://pritu0.github.io/test-2/#certifications</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#contact</loc>
+    <loc>https://pritu0.github.io/test-2/#contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.example/#articles</loc>
+    <loc>https://pritu0.github.io/test-2/#articles</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN.example/sitemap.xml
+Sitemap: https://pritu0.github.io/test-2/sitemap.xml

@@ -55,7 +55,9 @@
     initTestimonials();
     initContactForm();
     initCopyButtons();
-    initCertLinks();
+    renderCertLinks();
+    renderArticles();
+    renderCvExtras();
     initCvModal();
     initFooterYear();
     initLanguage();
@@ -393,20 +395,35 @@
   }
 
   // ---------------- Certification verification links ----------------
-  // Rows start with an empty data-cert-url. Any row where a real URL is
-  // later filled in automatically becomes a clickable "verify" link with
-  // an external-link icon; rows left empty stay plain text, unchanged.
-  function initCertLinks() {
-    var rows = document.querySelectorAll('[data-cert-url]');
+  // Static rows start with an empty data-cert-url. Any cert with a URL
+  // saved through the admin panel (localStorage) is upgraded here into a
+  // clickable "verify" link with an external-link icon; the rest stay
+  // plain text, unchanged.
+  function renderCertLinks() {
+    var rows = document.querySelectorAll('#certifications [data-cert-url]');
+    if (!rows.length) return;
+    var savedUrls = (window.PortfolioData && window.PortfolioData.getCertUrls) ? window.PortfolioData.getCertUrls() : {};
+
     rows.forEach(function (row) {
-      var url = row.getAttribute('data-cert-url');
+      var label = row.querySelector('.cert-label');
+      if (!label) return;
+      var title = label.textContent.trim();
+      var url = savedUrls[title] || '';
+
+      var existingLink = row.querySelector('a[data-cert-link]');
+      if (existingLink) {
+        row.insertBefore(label, existingLink);
+        existingLink.remove();
+        row.classList.remove('cred-row--linked');
+      }
       if (!url) return;
+
       row.classList.add('cred-row--linked');
-      var label = row.querySelector('span:last-child');
       var link = document.createElement('a');
       link.href = url;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
+      link.setAttribute('data-cert-link', '');
       link.className = 'flex items-center gap-1.5 hover:text-signal-600 dark:hover:text-signal-400 transition-colors';
       link.setAttribute('aria-label', 'Verify credential (opens in a new tab)');
       row.insertBefore(link, label);
@@ -467,6 +484,82 @@
     try { saved = localStorage.getItem('lang'); } catch (e) { /* ignore */ }
     applyLanguage(saved === 'bn' ? 'bn' : 'en');
   }
+
+  // ---------------- Articles (admin-managed, localStorage-backed) ----------------
+  function renderArticles() {
+    var container = document.getElementById('articles-list');
+    if (!container) return;
+    var articles = (window.PortfolioData && window.PortfolioData.getArticles) ? window.PortfolioData.getArticles() : [];
+
+    if (!articles.length) {
+      container.innerHTML = '<p class="text-sm text-ink-500 dark:text-ink-400 sm:col-span-2 lg:col-span-3">No articles yet.</p>';
+      return;
+    }
+
+    container.innerHTML = articles.map(function (a, i) {
+      return (
+        '<div class="card-premium p-6 flex flex-col">' +
+        '  <span class="pill bg-signal-50 text-signal-700 dark:bg-signal-500/10 dark:text-signal-300 mb-4 inline-block self-start">' + escapeHtmlLocal(a.date || '') + '</span>' +
+        '  <h3 class="font-display font-semibold text-ink-900 dark:text-white leading-snug">' + escapeHtmlLocal(a.title) + '</h3>' +
+        '  <p class="mt-2 text-sm text-ink-500 dark:text-ink-400 leading-relaxed">' + escapeHtmlLocal(a.excerpt) + '</p>' +
+        '  <div class="article-body mt-3 text-sm text-ink-600 dark:text-ink-300 leading-relaxed hidden space-y-3">' +
+             (a.body || '').split('\n\n').map(function (p) { return '<p>' + escapeHtmlLocal(p) + '</p>'; }).join('') +
+        '  </div>' +
+        '  <button type="button" class="article-toggle mt-4 text-sm font-semibold text-signal-600 dark:text-signal-400 hover:text-signal-700 inline-flex items-center gap-1 self-start" data-index="' + i + '">' +
+        '    <span class="label">Read more</span>' +
+        '    <svg class="w-4 h-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '  </button>' +
+        '</div>'
+      );
+    }).join('');
+
+    container.querySelectorAll('.article-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.card-premium');
+        var bodyEl = card.querySelector('.article-body');
+        var label = btn.querySelector('.label');
+        var icon = btn.querySelector('svg');
+        var open = !bodyEl.classList.contains('hidden');
+        bodyEl.classList.toggle('hidden', open);
+        label.textContent = open ? 'Read more' : 'Show less';
+        icon.style.transform = open ? '' : 'rotate(180deg)';
+      });
+    });
+  }
+
+  function escapeHtmlLocal(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // ---------------- CV extras (admin-managed, localStorage-backed) ----------------
+  function renderCvExtras() {
+    var mount = document.getElementById('cv-extras-mount');
+    if (!mount) return;
+    var extras = (window.PortfolioData && window.PortfolioData.getCvExtras) ? window.PortfolioData.getCvExtras() : [];
+    var populated = extras.filter(function (e) { return e.label && e.value; });
+
+    if (!populated.length) {
+      mount.innerHTML = '';
+      mount.classList.add('hidden');
+      return;
+    }
+    mount.classList.remove('hidden');
+    mount.innerHTML =
+      '<h2 class="font-serif text-sm font-bold uppercase tracking-widest text-signal-600 mb-2">Additional Information</h2>' +
+      populated.map(function (e) {
+        return '<p class="text-sm text-ink-700 mb-1"><strong class="text-ink-900">' + escapeHtmlLocal(e.label) + ':</strong> ' + escapeHtmlLocal(e.value) + '</p>';
+      }).join('');
+  }
+
+  // Hooks the admin panel (admin.js) calls after saving edits, so changes
+  // reflect immediately without a page reload.
+  window.PortfolioAdmin = {
+    refreshCertLinks: renderCertLinks,
+    refreshArticles: renderArticles,
+    refreshCvExtras: renderCvExtras,
+  };
 
   // ---------------- Footer year ----------------
   function initFooterYear() {

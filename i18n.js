@@ -115,7 +115,7 @@ window.I18N = {
     },
     articles: {
       eyebrow: "/articles", heading: "Writing & Notes",
-      subtitle: "Longer write-ups on the infrastructure work above — first post coming soon.",
+      subtitle: "Longer write-ups on the infrastructure work above.",
       draftBadge: "IN DRAFT",
       draft1: { title: "Notes on the Corporate Network Architecture Design project", excerpt: "A walkthrough of the multi-subnet, VLAN-isolated architecture — coming soon." },
       draft2: { title: "Setting up AD-DS & DNS on Windows Server 2022", excerpt: "Identity management and group policy notes from the field — coming soon." },
@@ -260,7 +260,7 @@ window.I18N = {
     },
     articles: {
       eyebrow: "/লেখালেখি", heading: "লেখালেখি ও নোট",
-      subtitle: "উপরের ইনফ্রাস্ট্রাকচার কাজগুলো নিয়ে বিস্তারিত লেখা — প্রথম পোস্ট শীঘ্রই আসছে।",
+      subtitle: "উপরের ইনফ্রাস্ট্রাকচার কাজগুলো নিয়ে বিস্তারিত লেখা।",
       draftBadge: "খসড়া",
       draft1: { title: "Corporate Network Architecture Design প্রজেক্টের নোট", excerpt: "মাল্টি-সাবনেট, VLAN-আইসোলেটেড আর্কিটেকচারের বিস্তারিত বর্ণনা — শীঘ্রই আসছে।" },
       draft2: { title: "Windows Server 2022-এ AD-DS ও DNS সেটআপ", excerpt: "মাঠপর্যায়ের আইডেন্টিটি ম্যানেজমেন্ট ও গ্রুপ পলিসি নোট — শীঘ্রই আসছে।" },
